@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Album Kenangan</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: yellow; /* Warna background kuning */
+            overflow: hidden;
+        }
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 2s ease-in-out;
+        }
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        h1 {
+            font-size: 4em; /* Ukuran lebih besar */
+            color: blue; /* Warna biru */
+            text-shadow: 2px 2px 4px rgb(6, 251, 210); /* Shadow warna putih */
+        }
+        h2, h3 {
+            color: blue;
+            text-shadow: 2px 2px 4px rgb(153, 255, 44);
+        }
+        #cover {
+            background: url('images/sekolah.jpg') no-repeat center center/cover;
+        }
+        #gallery img {
+            width: 400px;
+            height: auto;
+            border: 3px solid blue;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.5s ease-in-out;
+        }
+        #gallery img:hover {
+            transform: scale(1.05);
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        .btn {
+            background-color: blue;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .btn:hover {
+            background-color: darkblue;
+        }
+    </style>
+</head>
+<body>
+    <audio id="background-music" autoplay loop>
+        <source src="instrumental.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <div id="cover" class="page">
+        <h1>Album Kenangan</h1>
+        <h2>SMP Negeri 3 Darma</h2>
+        <h2>Tahun 2025</h2>
+    </div>
+    
+    <div id="gallery" class="page hidden">
+        <img id="foto" src="images/foto1.jpg" alt="Foto Kenangan">
+        <div class="buttons">
+            <button class="btn" id="prev">Sebelumnya</button>
+            <button class="btn" id="next">Berikutnya</button>
+        </div>
+    </div>
+    
+    <div id="thankyou" class="page hidden">
+        <h1>Terima Kasih</h1>
+        <button class="btn hidden" id="backToCover">Kembali ke Cover</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(() => {
+                document.getElementById("cover").classList.add("hidden");
+                setTimeout(() => {
+                    document.getElementById("gallery").classList.remove("hidden");
+                }, 2000); // Delay agar transisi lebih terasa
+            }, 3000); // 3 detik sebelum berpindah ke gallery
+
+            let currentIndex = 1;
+            const totalPhotos = 72;
+            const fotoElement = document.getElementById("foto");
+            const prevButton = document.getElementById("prev");
+            const nextButton = document.getElementById("next");
+            const thankYouPage = document.getElementById("thankyou");
+            const galleryPage = document.getElementById("gallery");
+            const coverPage = document.getElementById("cover");
+            const backToCoverButton = document.getElementById("backToCover");
+
+            function updatePhoto(index) {
+                fotoElement.style.opacity = 0;
+                setTimeout(() => {
+                    if (index > totalPhotos) {
+                        galleryPage.classList.add("hidden");
+                        thankYouPage.classList.remove("hidden");
+                        setTimeout(() => {
+                            backToCoverButton.classList.remove("hidden");
+                        }, 2000); // Munculkan tombol setelah 2 detik
+                    } else {
+                        fotoElement.src = `images/foto${index}.jpg`;
+                        fotoElement.style.opacity = 1;
+                    }
+                }, 500); // Efek transisi fade
+            }
+
+            nextButton.addEventListener("click", function() {
+                currentIndex++;
+                updatePhoto(currentIndex);
+            });
+
+            prevButton.addEventListener("click", function() {
+                if (currentIndex > 1) {
+                    currentIndex--;
+                    updatePhoto(currentIndex);
+                }
+            });
+
+            backToCoverButton.addEventListener("click", function() {
+                thankYouPage.classList.add("hidden");
+                coverPage.classList.remove("hidden");
+            });
+        });
+    </script>
+    <audio id="background-music" loop>
+        <source src="instrumental.mp3" type="audio/mpeg">
+    </audio>
+    
+    <button id="playMusic">Play Music</button>
+    
+    <script>
+        document.getElementById("playMusic").addEventListener("click", function() {
+            let music = document.getElementById("background-music");
+            music.play();
+            this.style.display = "none"; // Sembunyikan tombol setelah diklik
+        });
+    </script>
+    
+</body>
+</html>

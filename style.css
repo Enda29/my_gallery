@@ -1,0 +1,27 @@
+body {
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  text-align: center;
+}
+
+.foto {
+  width: 1px;
+  height: 1px;
+  object-fit: cover;
+  border: 15px solid hsl(45, 86%, 51%);
+  border-radius: 5px;
+  cursor: pointer; /* Memberikan isyarat bahwa gambar bisa diklik */
+}
+
+.petunjuk {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+}
